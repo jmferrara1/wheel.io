@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Spinning Wheel</title>
+	<style>
+		#wheel {
+			position: relative;
+			width: 200px;
+			height: 200px;
+			margin: 0 auto;
+		}
+
+		#spin {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			background-color: #f1c40f;
+			color: #fff;
+			font-size: 16px;
+			font-weight: bold;
+			text-align: center;
+			line-height: 50px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div id="wheel"></div>
+	<button id="spin">SPIN</button>
+
+	<script>
+		// Define the options for the wheel
+		var options = [
+			"Matt",
+			"Nick",
+			"Mike",
+			"Davis",
+			"Jake",
+			"Connor",
+			"John"
+		];
+
+		// Create the wheel using the given options
+		var wheel = new Winwheel({
+			canvasId: "wheel",
+			numSegments: options.length,
+			segments: options.map(function(option) {
+				return {text: option};
+			}),
+			lineWidth: 2,
+			lineColor: "#000",
+			textFontSize: 20,
+			textFontWeight: "bold",
+			textAlignment: "center",
+			textOrientation: "horizontal",
+			textMargin: 30,
+			textFillStyle: "#000",
+			textStrokeStyle: "#fff",
+			textLineWidth: 2,
+			outerRadius: 80,
+			innerRadius: 50,
+			drawMode: "segmentImage",
+			segmentImage: {
+				type: "image",
+				src: "https://cdn.pixabay.com/photo/2021/01/22/15/47/circle-5938594_960_720.png",
+				width: 160,
+				height: 160,
+			},
+			animation: {
+				type: "spinToStop",
+				duration: 5,
+				spins: 8,
+				easing: "Power4.easeOut",
+				callbackFinished: alertPrize
+			}
+		});
+
+		// Spin the wheel when the button is clicked
+		document.getElementById("spin").addEventListener("click", function() {
+			wheel.startAnimation();
+		});
+
+		// Alert the selected option when the animation finishes
+		function alertPrize() {
+			alert("Congratulations! You have won " + wheel.getIndicatedSegment().text + "!");
+		}
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/winwheel@2.9.0/dist/winwheel.min.js"></script>
+</body>
+</html>
